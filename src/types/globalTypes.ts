@@ -6,6 +6,6 @@ export interface FormValues {
 }
 
 export type User ={
-  email: string;
+  email?: string;
   id: string;
 }

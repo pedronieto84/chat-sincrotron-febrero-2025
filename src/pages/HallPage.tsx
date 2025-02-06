@@ -1,9 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { auth, db } from '../hooks/firebaseConfig';
 import { collection,  onSnapshot } from "firebase/firestore";
+import { User } from '../types/globalTypes';
 
 function HallPage() {
+
+
+    const [users, setUsers] = useState<User[]>([]);
 
 
     useEffect(() => {
@@ -18,8 +22,8 @@ function HallPage() {
              }));
              const quitoMiUsuario = usersData.filter((user) => user.id !== auth.currentUser?.uid);
              console.log('curr user', quitoMiUsuario);
-             //setLoading(false);
-             //setUsers(quitoMiUsuario);
+             
+             setUsers(quitoMiUsuario);
              
          });
  
@@ -31,11 +35,7 @@ function HallPage() {
         console.log('handle')
       };
 
-    const users = [
-        {
-        id: 1,
-        email: "asdfasfd"
-}]
+ 
   
   return (
     <>
