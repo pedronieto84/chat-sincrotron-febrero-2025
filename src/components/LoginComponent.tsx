@@ -1,7 +1,7 @@
 function LoginComponent() {
   return (
     <>
-      <h1>LOGIN COMPONENT</h1>
+      <h1 className="card">LOGIN COMPONENT</h1>
     </>
   );
 }
