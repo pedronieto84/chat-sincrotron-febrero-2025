@@ -1,28 +1,34 @@
 import { useState } from "react";
-import { Message} from './../types/globalTypes'
-function ChatComponent({handleConexionMessage}) {
+import { Message } from "./../types/globalTypes";
+import { auth } from "./../hooks/firebaseConfig";
 
-    const [messages, setMessages] = useState<Message[]>([]); // Almacena los mensajes
-    const [inputText, setInputText] = useState<string>(""); // Almacena el texto del input
-  
-    // Función para manejar el envío de mensajes
-    const handleSendMessage = () => {
-        console.log('handleSendMessage', inputText);
-      if (inputText.trim() !== "") {
+function ChatComponent({ handleConexionMessage }) {
+  const [messages, setMessages] = useState<Message[]>([]); // Almacena los mensajes
+  const [inputText, setInputText] = useState<string>(""); // Almacena el texto del input
 
+  // Función para manejar el envío de mensajes
+  const handleSendMessage = () => {
+    console.log("handleSendMessage", inputText);
+    if (inputText.trim() !== "") {
+      // El mensaje
+      const mensajeActual = {
+        text: inputText,
+        sender: auth.currentUser?.uid as string,
+        date: new Date().getTime(),
+      };
+      const arrayOfMessages: Message[] = [
+        ...messages,
+        mensajeActual,
+      ];
+      setMessages(arrayOfMessages);
+      handleConexionMessage(mensajeActual);
+      setInputText(""); // Limpiar el input después de enviar
+    }
+  };
+  return (
+    <>
+      <h1>CHatCOmponent</h1>
 
-        // El mensaje
-        const mensajeActual = { text: inputText, sender: "user", date: new Date().getTime() };
-        const arrayOfMessages: Message[] = [...messages, { text: inputText, sender: "user" }];
-        setMessages(arrayOfMessages);
-        handleConexionMessage(mensajeActual)
-        setInputText(""); // Limpiar el input después de enviar
-      }
-    };
-    return ( 
-        <>
-        <h1>CHatCOmponent</h1>
-        
       <div className="container mt-5">
         <div className="card">
           <div className="card-header bg-primary text-white">Chat</div>
@@ -61,20 +67,15 @@ function ChatComponent({handleConexionMessage}) {
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
               />
-              <button
-                className="btn btn-primary"
-                onClick={handleSendMessage}
-              >
+              <button className="btn btn-primary" onClick={handleSendMessage}>
                 Enviar
               </button>
             </div>
           </div>
         </div>
       </div>
-        
-        
-        </>
-     );
+    </>
+  );
 }
 
 export default ChatComponent;
