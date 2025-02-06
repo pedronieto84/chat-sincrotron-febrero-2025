@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginComponent from "../components/LoginComponent";
 import { FormValues } from "../types/globalTypes";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -7,6 +7,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { User } from "../types/globalTypes";
 
 function RegisterPage() {
+
+  const navigate = useNavigate();
   
   const formSubmitted = async (response: FormValues) => {
 
@@ -20,6 +22,16 @@ function RegisterPage() {
     await setDoc(doc(db, "users", user.id ), { 
       email: response.email, id: user.id 
     });
+
+    // Navegar a hall page
+    if(userRegistered.user.uid){
+      // Navego alHall
+      console.log('tengo el uid', userRegistered.user.uid);
+      navigate('/hall');
+      return
+    }
+    // navego a RegisterPage
+    navigate('/register');
 
     console.log('capturo desde register page el response', userRegistered.user.uid);
 }
