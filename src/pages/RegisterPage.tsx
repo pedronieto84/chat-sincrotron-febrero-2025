@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import LoginComponent from "../components/LoginComponent";
 
 function RegisterPage() {
@@ -5,6 +6,7 @@ function RegisterPage() {
     <>
       <h1>Register Page</h1>
       <LoginComponent />
+      <Link className="nav-link" to="/">Ya tengo  cuenta</Link>
     </>
   );
 }
