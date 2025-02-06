@@ -2,13 +2,25 @@ import { Link } from "react-router-dom";
 import LoginComponent from "../components/LoginComponent";
 import { FormValues } from "../types/globalTypes";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../hooks/firebaseConfig";
+import { auth, db } from "../hooks/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
+import { User } from "../types/globalTypes";
 
 function RegisterPage() {
   
   const formSubmitted = async (response: FormValues) => {
 
+    // Creo el usuario con firebase auth
     const userRegistered = await createUserWithEmailAndPassword(auth, response.email, response.password);
+    
+    // Creo el objeto que voy  a insertar
+    const user: User = {id: userRegistered.user.uid, email: userRegistered.user.email as string};
+    
+    // Insertar el objeto en la BBDD
+    await setDoc(doc(db, "users", user.id ), { 
+      email: response.email, id: user.id 
+    });
+
     console.log('capturo desde register page el response', userRegistered.user.uid);
 }
   return (
