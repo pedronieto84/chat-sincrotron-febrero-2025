@@ -9,3 +9,5 @@ export type User ={
   email?: string;
   id: string;
 }
+
+export type Message = {date:number,sender:string, text:string}

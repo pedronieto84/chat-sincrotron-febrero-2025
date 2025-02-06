@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Message} from './../types/globalTypes'
 function ChatComponent() {
 
     const [messages, setMessages] = useState([]); // Almacena los mensajes
