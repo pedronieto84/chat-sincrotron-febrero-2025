@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HallPage from "./pages/HallPage";
+import ChatPage from "./pages/ChatPage";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/hall" element={<HallPage />} />
+            <Route path="/chat-room/:id" element={<ChatPage />} />
           </Routes>
         </div>
       </Router>
