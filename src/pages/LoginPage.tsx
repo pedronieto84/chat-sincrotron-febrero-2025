@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import LoginComponent from "../components/LoginComponent";
+import { FormValues } from "../types/globalTypes";
 
 
 function LoginPage() {
 
-    const formSubmitted = (response) => {
+    const formSubmitted = (response: FormValues) => {
         console.log('capturo desde login page el response', response);
     }
   return (

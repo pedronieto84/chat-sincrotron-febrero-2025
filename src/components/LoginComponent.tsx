@@ -1,7 +1,9 @@
 import { Form, Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
+import { FormType, FormValues } from '../types/globalTypes';
 
-function LoginComponent({formSubmitted, type}: {formSubmitted: (response) => void, type: string}) {
+
+function LoginComponent({formSubmitted, type}: {formSubmitted: (response: FormValues) => void, type: FormType}) {
 
         // Estados para los campos del formulario
   const [email, setEmail] = useState<string>('');
