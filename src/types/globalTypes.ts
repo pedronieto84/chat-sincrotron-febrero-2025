@@ -10,4 +10,4 @@ export type User ={
   id: string;
 }
 
-export type Message = {date:number,sender:string, text:string}
+export type Message = {date?:number,sender:string, text:string}

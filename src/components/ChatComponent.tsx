@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { Message} from './../types/globalTypes'
-function ChatComponent() {
+function ChatComponent({handleConexionMessage}) {
 
-    const [messages, setMessages] = useState([]); // Almacena los mensajes
-    const [inputText, setInputText] = useState(""); // Almacena el texto del input
+    const [messages, setMessages] = useState<Message[]>([]); // Almacena los mensajes
+    const [inputText, setInputText] = useState<string>(""); // Almacena el texto del input
   
     // Función para manejar el envío de mensajes
     const handleSendMessage = () => {
         console.log('handleSendMessage', inputText);
       if (inputText.trim() !== "") {
-        setMessages([...messages, { text: inputText, sender: "user" }]);
+
+
+        // El mensaje
+        const mensajeActual = { text: inputText, sender: "user", date: new Date().getTime() };
+        const arrayOfMessages: Message[] = [...messages, { text: inputText, sender: "user" }];
+        setMessages(arrayOfMessages);
+        handleConexionMessage(mensajeActual)
         setInputText(""); // Limpiar el input después de enviar
       }
     };
