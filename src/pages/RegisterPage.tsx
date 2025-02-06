@@ -6,7 +6,7 @@ function RegisterPage() {
     <>
       <h1>Register Page</h1>
       <LoginComponent />
-      <Link className="nav-link" to="/">Ya tengo  cuenta</Link>
+      <Link className="nav-link btn" to="/">Ya tengo  cuenta</Link>
     </>
   );
 }

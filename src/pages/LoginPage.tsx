@@ -7,7 +7,7 @@ function LoginPage() {
     <>
     <h1>LOGIN PAGE</h1>
       <LoginComponent />
-      <Link className="nav-link" to="/register">Crear cuenta</Link>
+      <Link className="nav-link btn" to="/register">Crear cuenta</Link>
       
     </>
   );
