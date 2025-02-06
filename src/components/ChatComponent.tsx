@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Message } from "./../types/globalTypes";
-import { auth } from "./../hooks/firebaseConfig";
+import { auth, db } from "./../hooks/firebaseConfig";
+import {collection, onSnapshot} from "firebase/firestore";
+import {useParams} from "react-router-dom";
 
 function ChatComponent({ handleConexionMessage }) {
+
+  const { id } = useParams();
   const [messages, setMessages] = useState<Message[]>([]); // Almacena los mensajes
   const [inputText, setInputText] = useState<string>(""); // Almacena el texto del input
 
@@ -16,15 +20,39 @@ function ChatComponent({ handleConexionMessage }) {
         sender: auth.currentUser?.uid as string,
         date: new Date().getTime(),
       };
-      const arrayOfMessages: Message[] = [
-        ...messages,
-        mensajeActual,
-      ];
-      setMessages(arrayOfMessages);
+      
       handleConexionMessage(mensajeActual);
       setInputText(""); // Limpiar el input después de enviar
     }
   };
+
+
+// UseEffect que va a a escuhar los cambios en los mensajes
+
+useEffect(() => {
+
+// Creo el observable
+ // Referencia a la colección "chats/id/chatroom"
+ const chatRoomCollection = collection(db, `/chats/${id}/chatroom` );
+
+ // Suscribirse a los cambios en Firestore
+ const unsubscribe = onSnapshot(chatRoomCollection, (snapshot) => {
+
+   const conversationMessages = snapshot.docs.map((doc) => ({
+       ...doc.data(),
+   }));
+
+   setMessages(conversationMessages as Message[]);
+   console.log('conversation messages', conversationMessages);
+
+ })
+     
+  
+return () => {unsubscribe()}
+
+},[messages])
+
+
   return (
     <>
       <h1>CHatCOmponent</h1>
@@ -37,7 +65,7 @@ function ChatComponent({ handleConexionMessage }) {
             style={{ height: "400px", overflowY: "scroll" }}
           >
             {/* Mostrar mensajes */}
-            {messages.map((message, index) => (
+            {messages && messages.map((message, index) => (
               <div
                 key={index}
                 className={`d-flex justify-content-${
