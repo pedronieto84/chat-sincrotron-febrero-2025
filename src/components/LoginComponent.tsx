@@ -53,6 +53,7 @@ function LoginComponent({formSubmitted, type}: {formSubmitted: (response) => voi
     if (isFormValid) {
         
         console.log(email, password)
+        formSubmitted({email, password});
       // Aquí puedes hacer una llamada API o redireccionar
     }
   };
