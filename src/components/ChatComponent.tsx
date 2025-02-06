@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Message } from "./../types/globalTypes";
 import { auth, db } from "./../hooks/firebaseConfig";
 import {collection, onSnapshot} from "firebase/firestore";
@@ -9,6 +9,8 @@ function ChatComponent({ handleConexionMessage }) {
   const { id } = useParams();
   const [messages, setMessages] = useState<Message[]>([]); // Almacena los mensajes
   const [inputText, setInputText] = useState<string>(""); // Almacena el texto del input
+
+  const chatContainerRef = useRef(null) as any
 
   // Función para manejar el envío de mensajes
   const handleSendMessage = () => {
@@ -23,6 +25,12 @@ function ChatComponent({ handleConexionMessage }) {
       
       handleConexionMessage(mensajeActual);
       setInputText(""); // Limpiar el input después de enviar
+
+      // Hacer el scroll down
+
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      }
     }
   };
 
@@ -63,13 +71,14 @@ return () => {unsubscribe()}
           <div
             className="card-body"
             style={{ height: "400px", overflowY: "scroll" }}
+            ref={chatContainerRef}
           >
             {/* Mostrar mensajes */}
             {messages && messages.map((message, index) => (
               <div
                 key={index}
                 className={`d-flex justify-content-${
-                  message.sender === "user" ? "end" : "start"
+                  (message.sender === auth.currentUser?.uid)? "end" : "start"
                 } mb-2`}
               >
                 <div
