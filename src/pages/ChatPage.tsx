@@ -10,7 +10,8 @@ function ChatPage() {
         <>
         <h1>{id}</h1>
         <ChatComponent />
-      </>)
+      </>
+      )
 }
 
 export default ChatPage;

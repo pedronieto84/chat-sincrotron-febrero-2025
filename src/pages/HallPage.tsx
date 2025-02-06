@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { auth, db } from '../hooks/firebaseConfig';
 import { collection,  onSnapshot } from "firebase/firestore";
 import { User } from '../types/globalTypes';
+import { getIdOfChatRoomFromIds } from '../hooks/getIdOfChatRoomFromIds';
 
 function HallPage() {
 
@@ -45,7 +46,7 @@ function HallPage() {
             {users && users.map((user) => (
               <li key={user.id} className="list-group-item">
                 <Link
-                  to={`/chat-room/${user.id}`}
+                  to={`/chat-room/${getIdOfChatRoomFromIds(auth.currentUser?.uid as string, user.id)}`}
                 >
                   {user.email}
                 </Link>
