@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Message } from "./../types/globalTypes";
 import { auth, db } from "./../hooks/firebaseConfig";
-import {collection, onSnapshot} from "firebase/firestore";
+import {collection, onSnapshot, query, orderBy} from "firebase/firestore";
 import {useParams} from "react-router-dom";
 
 function ChatComponent({ handleConexionMessage }) {
@@ -41,10 +41,17 @@ useEffect(() => {
 
 // Creo el observable
  // Referencia a la colección "chats/id/chatroom"
+
+ // Preparo la sintaxis para hacer una query que ordene por el campo date
+ // Crear la consulta con `orderBy` para ordenar por fecha
+ 
  const chatRoomCollection = collection(db, `/chats/${id}/chatroom` );
+ const conversationQuery = query(chatRoomCollection, orderBy("date", "asc")); 
+
+ // Query 
 
  // Suscribirse a los cambios en Firestore
- const unsubscribe = onSnapshot(chatRoomCollection, (snapshot) => {
+ const unsubscribe = onSnapshot(conversationQuery, (snapshot) => {
 
    const conversationMessages = snapshot.docs.map((doc) => ({
        ...doc.data(),
