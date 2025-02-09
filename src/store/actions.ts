@@ -101,6 +101,21 @@ export const fetchUsersObservable = () => {
     }
 }
 
+export const fetchMessagesObservable = (id: string) => {
+    const chatCollection = collection(db, `chats/${id}/chatroom`);
+
+    return (dispatch: Dispatch) => {
+        const subscription = onSnapshot(chatCollection, (snapshot) => {
+            const messagesData = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data() as Message,
+            }));
+            dispatch(loadMessages(messagesData));
+        });
+
+        return () => subscription()
+    }
+}
 
 
 
