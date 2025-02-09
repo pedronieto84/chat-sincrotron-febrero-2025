@@ -50,8 +50,8 @@ describe('Register Page', () => {
   
     it('should navigate to "/" when clicking "Crear Cuenta"', () => {
       // Verifica que el enlace "Crear Cuenta" esté presente
-      cy.get('a[href="/"]').click();
-  
+      //cy.get('#root > div > a').click();
+      cy.contains('a', 'Ya tengo cuenta').click();
       // Verifica que la navegación a la página de inicio haya ocurrido
       cy.url().should('eq', Cypress.config().baseUrl + '/');
     });
