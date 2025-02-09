@@ -5,10 +5,14 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../hooks/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { User } from "../types/globalTypes";
+// Imports para redux
+import { useDispatch } from "react-redux";
+import { register } from "./../store/actions";
 
 function RegisterPage() {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // Instancio el dispatch
   
   const formSubmitted = async (response: FormValues) => {
 
@@ -26,14 +30,14 @@ function RegisterPage() {
     // Navegar a hall page
     if(userRegistered.user.uid){
       // Navego alHall
-      console.log('tengo el uid', userRegistered.user.uid);
+      // Una vez registrado, debo "dispatch" la accion REGISTER
+      dispatch( register(user) );
       navigate('/hall');
       return
     }
     // navego a RegisterPage
     navigate('/register');
 
-    console.log('capturo desde register page el response', userRegistered.user.uid);
 }
   return (
     <>
