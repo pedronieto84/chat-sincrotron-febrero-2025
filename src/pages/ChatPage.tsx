@@ -1,8 +1,9 @@
 import ChatComponent from "../components/ChatComponent";
 import{ useParams} from "react-router-dom"
 import { Message } from "../types/globalTypes";
-import {db, auth} from '../hooks/firebaseConfig';
-import { collection, onSnapshot, addDoc,  doc, setDoc, increment, orderBy, query  } from "firebase/firestore";
+import {db} from '../hooks/firebaseConfig';
+import { collection, addDoc } from "firebase/firestore";
+import { handleMessageFunction } from "../types/globalTypes";
 
 
 
@@ -11,7 +12,9 @@ function ChatPage() {
 
     const {id} = useParams();
 
-    const handleSendMessage = async (message:Message) => {
+    
+
+    const handleSendMessage: handleMessageFunction = async (message:Message) => {
         console.log('capturo el mensaje del hijo desde el padre', message );
         // Insercion del mensaje en la base de datos
 

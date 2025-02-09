@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { Message } from "./../types/globalTypes";
+import { Message, handleMessageFunction } from "./../types/globalTypes";
 import { auth, db } from "./../hooks/firebaseConfig";
 import {collection, onSnapshot, query, orderBy} from "firebase/firestore";
 import {useParams} from "react-router-dom";
 
-function ChatComponent({ handleConexionMessage }) {
+function ChatComponent({ handleConexionMessage }: { handleConexionMessage: handleMessageFunction }) {
 
   const { id } = useParams();
   const [messages, setMessages] = useState<Message[]>([]); // Almacena los mensajes

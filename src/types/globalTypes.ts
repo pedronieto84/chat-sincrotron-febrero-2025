@@ -11,3 +11,6 @@ export type User ={
 }
 
 export type Message = {date?:number,sender:string, text:string}
+
+
+export type handleMessageFunction = (message:Message) => void;
