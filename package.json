@@ -34,5 +34,8 @@
   },
   "environments": {
     "firebase-tools": "13.30.0"
+  },
+  "volta": {
+    "node": "20.17.0"
   }
 }
