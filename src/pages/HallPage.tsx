@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { auth } from '../hooks/firebaseConfig';
 
 import { fetchUsersObservable } from '../store/actions';
 
-import { User } from '../types/globalTypes';
+import { IStore } from '../types/globalTypes';
 import { getIdOfChatRoomFromIds } from '../hooks/getIdOfChatRoomFromIds';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function HallPage() {
 
     const dispatch = useDispatch()
 
-    const [users] = useState<User[]>([]);
+    const users = useSelector((state:IStore) => state.users);
 
 
     useEffect(() => {
      
-      const unsubscribe = dispatch(fetchUsersObservable());
+      const unsubscribe = dispatch(fetchUsersObservable() as any);
  
          // Cleanup: Desuscribirse al desmontar el componente
          return () => {

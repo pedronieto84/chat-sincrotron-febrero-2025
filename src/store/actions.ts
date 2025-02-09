@@ -44,7 +44,7 @@ export const fetchUsersObservable = () => {
             dispatch(loadUsersHall(quitoMiUsuario));
         });
 
-        return () => subscription
+        return () => subscription()
     }
 }
 
