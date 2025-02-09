@@ -41,3 +41,5 @@ const reducer = (state = initialState, action: { type: string, payload: User | U
             return state
     }
 }
+
+export default reducer;
