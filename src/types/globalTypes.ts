@@ -19,3 +19,10 @@ export type handleMessageFunction = (message:Message) => void;
 export type Store = {
   user: User | null;
 }
+
+export interface IStore {
+  user: User | null
+  users: User[]
+  messages: Message[]
+
+}
