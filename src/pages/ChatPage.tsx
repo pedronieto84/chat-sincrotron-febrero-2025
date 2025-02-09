@@ -12,7 +12,7 @@ import { fetchMessagesObservable } from '../store/actions';
 
 function ChatPage() {
 
-    const { id  } = useParams()
+    const { id } = useParams()
     const dispatch = useDispatch()
     const messages = useSelector((state: IStore) => state.messages)
 
@@ -40,7 +40,7 @@ function ChatPage() {
             <h1>{id}</h1>
             <ChatComponent
                 handleConexionMessage={handleSendMessage}
-                messages = {messages}
+                messages={messages}
             />
         </>
     )

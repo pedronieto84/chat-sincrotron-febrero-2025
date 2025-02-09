@@ -20,7 +20,7 @@ function ChatComponent({ handleConexionMessage, messages }: { handleConexionMess
         sender: auth.currentUser?.uid as string,
         date: new Date().getTime(),
       };
-      
+
       handleConexionMessage(mensajeActual);
       setInputText(""); // Limpiar el input después de enviar
 
@@ -48,16 +48,14 @@ function ChatComponent({ handleConexionMessage, messages }: { handleConexionMess
             {messages && messages.map((message, index) => (
               <div
                 key={index}
-                className={`d-flex justify-content-${
-                  (message.sender === auth.currentUser?.uid)? "end" : "start"
-                } mb-2`}
+                className={`d-flex justify-content-${(message.sender === auth.currentUser?.uid) ? "end" : "start"
+                  } mb-2`}
               >
                 <div
-                  className={`alert ${
-                    message.sender === "user"
+                  className={`alert ${message.sender === "user"
                       ? "alert-primary"
                       : "alert-secondary"
-                  }`}
+                    }`}
                   style={{ maxWidth: "70%" }}
                 >
                   {message.text}
