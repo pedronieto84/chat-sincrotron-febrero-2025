@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { auth } from '../hooks/firebaseConfig';
 
-import { fetchUsersObservable } from '../store/actions';
+import { fetchUsersObservable, logoutAsync } from '../store/actions';
 
 import { IStore } from '../types/globalTypes';
 import { getIdOfChatRoomFromIds } from '../hooks/getIdOfChatRoomFromIds';
@@ -29,7 +29,7 @@ function HallPage() {
     }, [dispatch])
 
     const logout = async () => {
-        console.log('logout')
+         dispatch(logoutAsync() as any);
       };
 
  
