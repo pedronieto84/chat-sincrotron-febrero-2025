@@ -3,25 +3,26 @@ import LoginComponent from "../components/LoginComponent";
 import { FormValues } from "../types/globalTypes";
 import { auth } from "./../hooks/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { login } from "./../store/actions";
 
 
 
 function LoginPage() {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const formSubmitted = async (response: FormValues) => {
 
         const userCredential = await signInWithEmailAndPassword(auth, response.email, response.password);
-        console.log("User logged in:", userCredential.user.uid);
-        
+                
         if(userCredential.user.uid){
-          // Navego alHall
-          console.log('tengo el uid', userCredential.user.uid);
+          // Aqui debo "dispatch" la accion LOGIN
+          dispatch( login({email: response.email, id: userCredential.user.uid}) );
           navigate('/hall');
           return
         }
-        // navego a RegisterPage
         navigate('/register');
     }
   return (
