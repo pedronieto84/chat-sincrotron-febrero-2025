@@ -1,13 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Message, handleMessageFunction } from "./../types/globalTypes";
-import { auth, db } from "./../hooks/firebaseConfig";
-import {collection, onSnapshot, query, orderBy} from "firebase/firestore";
-import {useParams} from "react-router-dom";
+import { auth } from "./../hooks/firebaseConfig";
 
-function ChatComponent({ handleConexionMessage }: { handleConexionMessage: handleMessageFunction }) {
 
-  const { id } = useParams();
-  const [messages, setMessages] = useState<Message[]>([]); // Almacena los mensajes
+function ChatComponent({ handleConexionMessage, messages }: { handleConexionMessage: handleMessageFunction, messages: Message[] }) {
+
+
   const [inputText, setInputText] = useState<string>(""); // Almacena el texto del input
 
   const chatContainerRef = useRef(null) as any
@@ -33,40 +31,6 @@ function ChatComponent({ handleConexionMessage }: { handleConexionMessage: handl
       }
     }
   };
-
-
-// UseEffect que va a a escuhar los cambios en los mensajes
-
-useEffect(() => {
-
-// Creo el observable
- // Referencia a la colección "chats/id/chatroom"
-
- // Preparo la sintaxis para hacer una query que ordene por el campo date
- // Crear la consulta con `orderBy` para ordenar por fecha
- 
- const chatRoomCollection = collection(db, `/chats/${id}/chatroom` );
- const conversationQuery = query(chatRoomCollection, orderBy("date", "asc")); 
-
- // Query 
-
- // Suscribirse a los cambios en Firestore
- const unsubscribe = onSnapshot(conversationQuery, (snapshot) => {
-
-   const conversationMessages = snapshot.docs.map((doc) => ({
-       ...doc.data(),
-   }));
-
-   setMessages(conversationMessages as Message[]);
-   console.log('conversation messages', conversationMessages);
-
- })
-     
-  
-return () => {unsubscribe()}
-
-},[messages])
-
 
   return (
     <>
