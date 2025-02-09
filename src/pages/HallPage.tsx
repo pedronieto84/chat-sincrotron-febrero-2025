@@ -28,8 +28,8 @@ function HallPage() {
          }
     }, [dispatch])
 
-    const handleButtonClick = async () => {
-        console.log('handle')
+    const logout = async () => {
+        console.log('logout')
       };
 
  
@@ -50,7 +50,7 @@ function HallPage() {
             ))}
           </ul>
           <div className="d-flex justify-content-center mt-3">
-            <a href="/" onClick={handleButtonClick}>
+            <a href="/" onClick={logout}>
               Salir
             </a>
           </div>

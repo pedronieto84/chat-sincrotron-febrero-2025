@@ -24,10 +24,21 @@ export const loadUsersHall = (payload: User[]) => ({ type: LOAD_USERS_HALL, payl
 // Defino los tipos de las acciones de CHAT
 export const loadMessages = (payload: Message[]) => ({ type: LOAD_MESSAGES, payload });
 
-// DEFINO ACCION DE TIPO OBSERVABLE
+// DEFINO ACCIONES ASINCRONAS
 
+export const logoutAsync = () => {
+    return async (dispatch:Dispatch) => {
+        try{
+            await auth.signOut();
+            dispatch(logout());
+        }catch(e){
+            console.error(e);
+        }
+    }
+}
+
+// DEFINO ACCIONES DE TIPO OBSERVABLE
 export const fetchUsersObservable = () => {
-
     // Defino la colección de usuarios
     const usersCollection = collection(db, "users");
 
