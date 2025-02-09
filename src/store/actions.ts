@@ -40,10 +40,11 @@ export const fetchUsersObservable = () => {
                 ...doc.data(),
             }));
             const quitoMiUsuario = usersData.filter((user) => user.id !== auth.currentUser?.uid);
+            console.log('quito miusuario', quitoMiUsuario);
             dispatch(loadUsersHall(quitoMiUsuario));
         });
 
-        return () => subscription();
+        return () => subscription
     }
 }
 

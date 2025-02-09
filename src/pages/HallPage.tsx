@@ -1,36 +1,32 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
-import { auth, db } from '../hooks/firebaseConfig';
-import { collection,  onSnapshot } from "firebase/firestore";
+import { auth } from '../hooks/firebaseConfig';
+
+import { fetchUsersObservable } from '../store/actions';
+
 import { User } from '../types/globalTypes';
 import { getIdOfChatRoomFromIds } from '../hooks/getIdOfChatRoomFromIds';
+import { useDispatch } from 'react-redux';
 
 function HallPage() {
 
+    const dispatch = useDispatch()
 
-    const [users, setUsers] = useState<User[]>([]);
+    const [users] = useState<User[]>([]);
 
 
     useEffect(() => {
-         // Referencia a la colección "users"
-         const usersCollection = collection(db, "users");
-
-         // Suscribirse a los cambios en Firestore
-         const unsubscribe = onSnapshot(usersCollection, (snapshot) => {
-             const usersData = snapshot.docs.map((doc) => ({
-                 id: doc.id,
-                 ...doc.data(),
-             }));
-             const quitoMiUsuario = usersData.filter((user) => user.id !== auth.currentUser?.uid);
-             console.log('curr user', quitoMiUsuario);
-             
-             setUsers(quitoMiUsuario);
-             
-         });
+     
+      const unsubscribe = dispatch(fetchUsersObservable());
  
          // Cleanup: Desuscribirse al desmontar el componente
-         return () => unsubscribe();
-    }, [])
+         return () => {
+          if(unsubscribe) {
+            console.log('me he UNSUBSCRIBED', unsubscribe);
+            unsubscribe();
+          }
+         }
+    }, [dispatch])
 
     const handleButtonClick = async () => {
         console.log('handle')
