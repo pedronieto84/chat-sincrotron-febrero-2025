@@ -1,7 +1,9 @@
 import {User, Message} from './../types/globalTypes';
 import { auth, db } from '../hooks/firebaseConfig';
 import { collection,  onSnapshot } from "firebase/firestore";
-import { Dispatch } from 'redux';
+import {  Dispatch } from 'redux';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 // Defino las acciones de LOGIN PAGE
 export const LOGIN = 'LOGIN';
@@ -36,6 +38,34 @@ export const logoutAsync = () => {
         }
     }
 }
+
+
+
+export const createUserAsync = (email: string, password: string) => {
+    return async (dispatch: Dispatch) => {
+      try {
+        // Crear el usuario con Firebase Auth
+        const userRegistered = await createUserWithEmailAndPassword(auth, email, password);
+  
+        // Crear el objeto que se va a insertar
+        const user: User = { id: userRegistered.user.uid, email: userRegistered.user.email as string };
+  
+        // Insertar el objeto en la BBDD
+        await setDoc(doc(db, "users", user.id), {
+          email: user.email,
+          id: user.id,
+        });
+  
+        // Despachar la acción REGISTER
+        dispatch(register(user));
+  
+        return user;
+      } catch (error) {
+        console.error("Error creating user:", error);
+        throw error;
+      }
+    };
+  };
 
 // DEFINO ACCIONES DE TIPO OBSERVABLE
 export const fetchUsersObservable = () => {

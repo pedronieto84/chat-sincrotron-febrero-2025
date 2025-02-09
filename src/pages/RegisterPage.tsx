@@ -1,13 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import LoginComponent from "../components/LoginComponent";
-import { FormValues } from "../types/globalTypes";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../hooks/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
-import { User } from "../types/globalTypes";
+import { FormValues, User } from "../types/globalTypes";
+
+
 // Imports para redux
 import { useDispatch } from "react-redux";
-import { register } from "./../store/actions";
+import { createUserAsync } from "./../store/actions";
 
 function RegisterPage() {
 
@@ -16,22 +14,12 @@ function RegisterPage() {
   
   const formSubmitted = async (response: FormValues) => {
 
-    // Creo el usuario con firebase auth
-    const userRegistered = await createUserWithEmailAndPassword(auth, response.email, response.password);
+    const user = await dispatch(createUserAsync(response.email, response.password) as any) as User
     
-    // Creo el objeto que voy  a insertar
-    const user: User = {id: userRegistered.user.uid, email: userRegistered.user.email as string};
+   
     
-    // Insertar el objeto en la BBDD
-    await setDoc(doc(db, "users", user.id ), { 
-      email: response.email, id: user.id 
-    });
-
-    // Navegar a hall page
-    if(userRegistered.user.uid){
+    if(user.id){
       // Navego alHall
-      // Una vez registrado, debo "dispatch" la accion REGISTER
-      dispatch( register(user) );
       navigate('/hall');
       return
     }
